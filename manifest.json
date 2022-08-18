@@ -8,6 +8,11 @@
         "scripting",
         "storage"
     ],
+    "icons": {
+        "16": "Images/16.png",
+        "48": "Images/48.png",
+        "128": "Images/128.png"
+    },
     "options_page": "options.html",
     "action": {
         "default_popup": "popup.html",
