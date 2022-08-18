@@ -11,7 +11,7 @@
     "options_page": "options.html",
     "action": {
         "default_popup": "popup.html",
-        "default_icon": "fav.png"
+        "default_icon": "Images/16.png"
     },
     "commands": {
         "_execute_action": {
