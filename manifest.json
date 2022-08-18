@@ -1,0 +1,25 @@
+{
+    "name": "My Extension",
+    "description": "My Extension",
+    "version": "1.0",
+    "manifest_version": 3,
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "storage"
+    ],
+    "options_page": "options.html",
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": "fav.png"
+    },
+    "commands": {
+        "_execute_action": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+H",
+                "mac": "MacCtrl+Shift+H"
+            },
+            "description": "Run extension."
+        }
+    }
+}
