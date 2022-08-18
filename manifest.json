@@ -1,6 +1,6 @@
 {
-    "name": "My Extension",
-    "description": "My Extension",
+    "name": "Parallel Search",
+    "description": "An extension to open multi urls with text.",
     "version": "1.0",
     "manifest_version": 3,
     "permissions": [
