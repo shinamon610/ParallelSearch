@@ -40,21 +40,30 @@ function addSummary(summary) {
     })
 }
 
+function changeData(data, ID, func) {
+    for (let index = 0; index < data.length; index++) {
+        const element = data[index];
+        if (element["id"] === ID) {
+            func(element)
+            return data
+        }
+    }
+}
+
 function changeSummary(ID, summary) {
     getDataAndDo((details) => {
-        for (let index = 0; index < details.length; index++) {
-            const element = details[index];
-            if (element["id"] === ID) {
-                element["summary"] = summary
-                break
-            }
-        }
-        setData(details)
+        setData(changeData(details, ID, (e) => {
+            e["summary"] = summary
+        }))
     })
 }
 
-function addList() {
-
+function addList(ID, url) {
+    getDataAndDo((details) => {
+        setData(changeData(details, ID, (e) => {
+            e["urls"].push(url)
+        }))
+    })
 }
 
 function isSubmit(key) {
@@ -92,6 +101,11 @@ function makeLine(lineData) {
         li.appendChild(input)
         details.appendChild(li)
     })
+    const inputNewUrl = document.createElement("input")
+    details.appendChild(inputNewUrl)
+    addEventListenerKeydown(inputNewUrl, () => {
+        addList(ID, inputNewUrl.value)
+    })
     wrapper.appendChild(details)
 
     const press = document.createElement("label")
@@ -127,11 +141,7 @@ function makeLine(lineData) {
             summary.textContent = ""
             summary.appendChild(inputOfSummary)
 
-            inputOfSummary.addEventListener("keydown", (e) => {
-                if (isSubmit(e.key)) {
-                    changeSummary(ID, inputOfSummary.value)
-                }
-            })
+            addEventListenerKeydown(inputOfSummary, () => changeSummary(ID, inputOfSummary.value))
         } else {
             const inputOfSummary = summary.getElementsByTagName("input")[0]
             inputOfSummary.remove()
@@ -151,18 +161,22 @@ function showData(data) {
     const input = document.createElement("input")
     input.tabIndex = "-1"
     wrapper.appendChild(input)
-    input.addEventListener("keydown", (e) => {
-        if (isSubmit(e.key)) {
-            if (input.value !== "") {
-                addSummary(input.value)
-            }
+    addEventListenerKeydown(input, () => {
+        if (input.value !== "") {
+            addSummary(input.value)
         }
     })
 
 
 }
 
-
+function addEventListenerKeydown(input, func) {
+    input.addEventListener("keydown", (e) => {
+        if (isSubmit(e.key)) {
+            func()
+        }
+    })
+}
 
 inputQ.addEventListener('focus', (event) => {
     event.target.style.backgroundColor = "aqua";
