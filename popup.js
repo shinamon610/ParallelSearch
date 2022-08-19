@@ -83,6 +83,19 @@ function addList(ID, url) {
     })
 }
 
+function changeList(ID, urlId, url) {
+    getDataAndDo((details) => {
+        setData(changeData(details, ID, (e) => {
+            const filtered = e["urls"].filter(idToUrl => idToUrl["id"] === urlId)
+            if (filtered.length === 0) {
+                // do nothing
+            } else {
+                filtered[0]["url"] = url
+            }
+        }))
+    })
+}
+
 function isSubmit(key) {
     return key === "Enter" || key === "Tab"
 }
@@ -118,6 +131,9 @@ function makeLine(lineData) {
         input.name = idName
         li.appendChild(input)
         details.appendChild(li)
+        addEventListenerKeydown(input, () => {
+            changeList(ID, idTourl["id"], input.value)
+        })
     })
     const inputNewUrl = document.createElement("input")
     details.appendChild(inputNewUrl)
