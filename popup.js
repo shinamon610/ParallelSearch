@@ -40,7 +40,7 @@ function makeUrlId(data, ID) {
     } else {
         maxId = 0
         filtered[0]["urls"].forEach((idToUrl) => {
-            Math.max(maxId, idToUrl["id"])
+            maxId = Math.max(maxId, idToUrl["id"])
         })
         return maxId + 1
     }
