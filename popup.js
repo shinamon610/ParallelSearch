@@ -33,6 +33,19 @@ function makeId(data) {
     return maxId + 1
 }
 
+function makeUrlId(data, ID) {
+    const filtered = data.filter(list => list["id"] === ID)
+    if (filtered.length === 0) {
+        return 0
+    } else {
+        maxId = 0
+        filtered[0]["urls"].forEach((idToUrl) => {
+            Math.max(maxId, idToUrl["id"])
+        })
+        return maxId + 1
+    }
+}
+
 function addSummary(summary) {
     getDataAndDo((details) => {
         details.push({ id: makeId(details), summary: summary, urls: [], key: "e" })
@@ -52,16 +65,20 @@ function changeData(data, ID, func) {
 
 function changeSummary(ID, summary) {
     getDataAndDo((details) => {
-        setData(changeData(details, ID, (e) => {
-            e["summary"] = summary
-        }))
+        if (summary === "") {
+            setData(details.filter(d => d["id"] !== ID))
+        } else {
+            setData(changeData(details, ID, (e) => {
+                e["summary"] = summary
+            }))
+        }
     })
 }
 
 function addList(ID, url) {
     getDataAndDo((details) => {
         setData(changeData(details, ID, (e) => {
-            e["urls"].push(url)
+            e["urls"].push({ id: makeUrlId(details, ID), url: url })
         }))
     })
 }
@@ -93,7 +110,8 @@ function makeLine(lineData) {
     summary.id = makeSummaryId(ID)
     details.appendChild(summary)
 
-    lineData["urls"].forEach(url => {
+    lineData["urls"].forEach(idTourl => {
+        const url = idTourl["url"]
         const li = document.createElement("li")
         const input = document.createElement("input")
         input.value = url
@@ -203,8 +221,8 @@ function getElsByClass(className) {
 function Search(ID, inpv) {
     getDataAndDo((details) => {
         details.filter(d => d["id"] === ID).forEach((detail) => {
-            detail["urls"].forEach(url => {
-                window.open(url + inpv, "_blank")
+            detail["urls"].forEach(idToUrl => {
+                window.open(idToUrl["url"] + inpv, "_blank")
             })
         })
     })
