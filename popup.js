@@ -2,7 +2,10 @@ const inputQ = getElById("inp")
 const wrapper = getElsByClass("wrapper")[0]
 
 // data for test
-const testlist = [{ id: 0, summary: "ITdes", list: ["aaaa", "bbbb"], key: "e" }]
+const testlist = [
+    { id: 0, summary: "ITdes", list: ["aaaa", "bbbb"], key: "e" },
+    { id: 1, summary: "ITdd", list: ["cc", "dd"], key: "e" }
+]
 
 
 
@@ -71,13 +74,14 @@ function makeLine(lineData) {
 
 function makeLines() {
     const data = getData()
-    data.forEach(lineData => makeLine(lineData))
-
-    getElById("btn0").addEventListener("click", async () => {
-        let urls = []
-        getElsByName("dt0").forEach(a => urls.push(a.value))
-        Search(urls, inputQ.value)
-    });
+    data.forEach(lineData => {
+        makeLine(lineData)
+        getElById(makeButtonId(lineData["id"])).addEventListener("click", async () => {
+            let urls = []
+            getElsByName(makeDetailsId(lineData["id"])).forEach(a => urls.push(a.value))
+            Search(urls, inputQ.value)
+        });
+    })
 }
 
 
