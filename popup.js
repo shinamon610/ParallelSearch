@@ -11,6 +11,9 @@ function getDataAndDo(func) {
         }
     })
 }
+function setData(data) {
+    chrome.storage.sync.set({ detailsData: data })
+}
 
 window.onload = () => {
     getDataAndDo(showData)
@@ -33,12 +36,29 @@ function makeId(data) {
 function addSummary(summary) {
     getDataAndDo((details) => {
         details.push({ id: makeId(details), summary: summary, urls: [], key: "e" })
-        showData(details)
+        setData(details)
+    })
+}
+
+function changeSummary(ID, summary) {
+    getDataAndDo((details) => {
+        for (let index = 0; index < details.length; index++) {
+            const element = details[index];
+            if (element["id"] === ID) {
+                element["summary"] = summary
+                break
+            }
+        }
+        setData(details)
     })
 }
 
 function addList() {
 
+}
+
+function isSubmit(key) {
+    return key === "Enter" || key === "Tab"
 }
 
 function makeDetailsId(id) {
@@ -99,6 +119,25 @@ function makeLine(lineData) {
     searchButton.addEventListener("click", async () => {
         Search(ID, inputQ.value)
     });
+
+    details.addEventListener("toggle", (e) => {
+        if (e.target.open) {
+            const inputOfSummary = document.createElement("input")
+            inputOfSummary.value = lineData["summary"]
+            summary.textContent = ""
+            summary.appendChild(inputOfSummary)
+
+            inputOfSummary.addEventListener("keydown", (e) => {
+                if (isSubmit(e.key)) {
+                    changeSummary(ID, inputOfSummary.value)
+                }
+            })
+        } else {
+            const inputOfSummary = summary.getElementsByTagName("input")[0]
+            inputOfSummary.remove()
+            getDataAndDo(showData)
+        }
+    })
 }
 
 function showData(data) {
@@ -106,28 +145,6 @@ function showData(data) {
 
     data.forEach(lineData => {
         makeLine(lineData)
-
-        // link search button to Search
-        // getElById(makeButtonId(lineData["id"])).addEventListener("click", async () => {
-        //     let urls = []
-        //     getElsByName(makeDetailsId(lineData["id"])).forEach(a => urls.push(a.value))
-        //     Search(urls, inputQ.value)
-        // });
-
-        // summary to input
-        getElById(makeDetailsId(lineData["id"])).addEventListener("toggle", (e) => {
-            summary = getElById(makeSummaryId(lineData["id"]))
-            if (e.target.open) {
-                const inputOfSummary = document.createElement("input")
-                inputOfSummary.value = summary.textContent
-                summary.textContent = ""
-                summary.appendChild(inputOfSummary)
-            } else {
-                const inputOfSummary = summary.getElementsByTagName("input")[0]
-                summary.textContent = inputOfSummary.value
-                inputOfSummary.remove()
-            }
-        })
     })
 
     // add input form to append group
@@ -135,7 +152,7 @@ function showData(data) {
     input.tabIndex = "-1"
     wrapper.appendChild(input)
     input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === "Tab") {
+        if (isSubmit(e.key)) {
             if (input.value !== "") {
                 addSummary(input.value)
             }
