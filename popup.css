@@ -1,0 +1,19 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: 60% 35px 20px 15px 50px;
+}
+
+button {
+    height: 15px;
+    text-align: center;
+    line-height: 10px;
+}
+
+input {
+    height: 10px;
+}
+
+body {
+    width: 300px;
+    max-height: 600px;
+}
