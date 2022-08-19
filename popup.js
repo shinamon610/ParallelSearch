@@ -86,11 +86,15 @@ function addList(ID, url) {
 function changeList(ID, urlId, url) {
     getDataAndDo((details) => {
         setData(changeData(details, ID, (e) => {
-            const filtered = e["urls"].filter(idToUrl => idToUrl["id"] === urlId)
-            if (filtered.length === 0) {
-                // do nothing
+            if (url === "") {
+                e["urls"] = e["urls"].filter(idToUrl => idToUrl["id"] !== urlId)
             } else {
-                filtered[0]["url"] = url
+                const filtered = e["urls"].filter(idToUrl => idToUrl["id"] === urlId)
+                if (filtered.length === 0) {
+                    // do nothing
+                } else {
+                    filtered[0]["url"] = url
+                }
             }
         }))
     })
