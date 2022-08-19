@@ -10,14 +10,27 @@ const testlist = [
 
 
 window.onload = () => {
-    makeLines()
+    chrome.storage.sync.get(["detailsData"], (data) => {
+        makeLines(data.detailsData)
+    });
 }
 
-function getData() {
-    return testlist
+function makeId(data) {
+    maxId = 0
+    data.forEach((list) => {
+        maxId = Math.max(list["id"], maxId)
+    })
+    return maxId + 1
 }
 
-function saveData() {
+function addSummary(data, summary) {
+    data.push({ id: makeId(data), summary: summary, list: [], key: "e" })
+    chrome.storage.sync.set({ detailsData: data }, () => {
+        makeLines(data)
+    })
+}
+
+function addList() {
 
 }
 
@@ -72,8 +85,9 @@ function makeLine(lineData) {
     wrapper.appendChild(searchButton)
 }
 
-function makeLines() {
-    const data = getData()
+function makeLines(data) {
+    wrapper.innerHTML = ""
+
     data.forEach(lineData => {
         makeLine(lineData)
         getElById(makeButtonId(lineData["id"])).addEventListener("click", async () => {
@@ -81,6 +95,18 @@ function makeLines() {
             getElsByName(makeDetailsId(lineData["id"])).forEach(a => urls.push(a.value))
             Search(urls, inputQ.value)
         });
+    })
+
+    // add input form to append group
+    const input = document.createElement("input")
+    input.tabIndex = "-1"
+    wrapper.appendChild(input)
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === "Tab") {
+            if (input.value !== "") {
+                addSummary(data, input.value)
+            }
+        }
     })
 }
 
