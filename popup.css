@@ -13,6 +13,7 @@ input {
     width: 90%;
     border-radius: 0.67em;
     font-size: medium;
+    padding: 3px;
 }
 
 body {
