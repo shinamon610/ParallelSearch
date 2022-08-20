@@ -27,6 +27,7 @@ window.onload = () => {
     inputQ.focus()
 }
 
+
 chrome.storage.onChanged.addListener((changes, namespace) => {
     if (changes.detailsData) {
         showData(changes.detailsData.newValue)
@@ -56,7 +57,7 @@ function makeUrlId(data, ID) {
 
 function addSummary(summary) {
     getDataAndDo((details) => {
-        details.push({ id: makeId(details), summary: summary, urls: [], key: "e" })
+        details.push({ id: makeId(details), summary: summary, urls: [], isOpened: false })
         setData(details)
     })
 }
@@ -69,6 +70,14 @@ function changeData(data, ID, func) {
             return data
         }
     }
+}
+
+function changeIsOpened(ID, isOpened) {
+    getDataAndDo((details) => {
+        setData(changeData(details, ID, (e) => {
+            e["isOpened"] = isOpened
+        }))
+    })
 }
 
 function changeSummary(ID, summary) {
@@ -130,6 +139,7 @@ function makeLine(lineData) {
     const idName = makeDetailsId(ID)
     details.id = idName
     details.tabIndex = "-1"
+    details.open = lineData["isOpened"]
     const summary = document.createElement("summary")
     summary.textContent = lineData["summary"]
     summary.id = makeSummaryId(ID)
@@ -171,6 +181,7 @@ function makeLine(lineData) {
     });
 
     details.addEventListener("toggle", (e) => {
+        changeIsOpened(ID, e.target.open)
         if (e.target.open) {
             const inputOfSummary = document.createElement("input")
             inputOfSummary.value = lineData["summary"]
@@ -181,7 +192,6 @@ function makeLine(lineData) {
         } else {
             const inputOfSummary = summary.getElementsByTagName("input")[0]
             inputOfSummary.remove()
-            getDataAndDo(showData)
         }
     })
 }
