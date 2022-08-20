@@ -153,7 +153,7 @@ function makeLine(lineData) {
         input.name = idName
         li.appendChild(input)
         details.appendChild(li)
-        addEventListenerKeydown(input, () => {
+        addEventListenerKeydownAndBlur(input, () => {
             changeList(ID, idTourl["id"], input.value)
         })
     })
@@ -162,7 +162,7 @@ function makeLine(lineData) {
     inputNewUrl.placeholder = "new url"
     li.appendChild(inputNewUrl)
     details.appendChild(li)
-    addEventListenerKeydown(inputNewUrl, () => {
+    addEventListenerKeydownAndBlur(inputNewUrl, () => {
         if (inputNewUrl.value !== "") {
             addList(ID, inputNewUrl.value)
         }
@@ -190,7 +190,7 @@ function makeLine(lineData) {
             summary.textContent = ""
             summary.appendChild(inputOfSummary)
 
-            addEventListenerKeydown(inputOfSummary, () => changeSummary(ID, inputOfSummary.value))
+            addEventListenerKeydownAndBlur(inputOfSummary, () => changeSummary(ID, inputOfSummary.value))
         } else {
             const inputOfSummary = summary.getElementsByTagName("input")[0]
             inputOfSummary.remove()
@@ -217,6 +217,17 @@ function showData(data) {
     })
 
 
+}
+
+function addEventListenerKeydownAndBlur(input, func) {
+    addEventListenerBlur(input, func)
+    addEventListenerKeydown(input, func)
+}
+
+function addEventListenerBlur(input, func) {
+    input.addEventListener("blur", (e) => {
+        func()
+    })
 }
 
 function addEventListenerKeydown(input, func) {
