@@ -17,6 +17,7 @@ function setData(data) {
 
 window.onload = () => {
     getDataAndDo(showData)
+    inputQ.focus()
 }
 
 chrome.storage.onChanged.addListener((changes, namespace) => {
