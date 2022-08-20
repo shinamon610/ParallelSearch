@@ -163,7 +163,9 @@ function makeLine(lineData) {
     li.appendChild(inputNewUrl)
     details.appendChild(li)
     addEventListenerKeydown(inputNewUrl, () => {
-        addList(ID, inputNewUrl.value)
+        if (inputNewUrl.value !== "") {
+            addList(ID, inputNewUrl.value)
+        }
     })
     wrapper.appendChild(details)
 
