@@ -141,6 +141,7 @@ function makeLine(lineData) {
         })
     })
     const inputNewUrl = document.createElement("input")
+    inputNewUrl.placeholder = "new url"
     details.appendChild(inputNewUrl)
     addEventListenerKeydown(inputNewUrl, () => {
         addList(ID, inputNewUrl.value)
@@ -185,6 +186,7 @@ function showData(data) {
 
     // add input form to append group
     const input = document.createElement("input")
+    input.placeholder = "new group"
     input.tabIndex = "-1"
     wrapper.appendChild(input)
     addEventListenerKeydown(input, () => {
