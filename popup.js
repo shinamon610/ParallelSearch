@@ -1,7 +1,6 @@
 const inputQ = getElById("inp")
 const wrapper = getElsByClass("wrapper")[0]
 
-
 function getDataAndDo(func) {
     chrome.storage.sync.get(["detailsData"], (data) => {
         if (data.detailsData == null) {
@@ -206,15 +205,6 @@ function addEventListenerKeydown(input, func) {
     })
 }
 
-inputQ.addEventListener('focus', (event) => {
-    event.target.style.backgroundColor = "aqua";
-    wrapper.style.backgroundColor = ""
-});
-
-inputQ.addEventListener('blur', (event) => {
-    event.target.style.background = '';
-    wrapper.style.backgroundColor = "aqua"
-});
 
 function getElById(id) {
     return document.getElementById(id)

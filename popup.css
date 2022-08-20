@@ -11,9 +11,21 @@ button {
 input {
     height: 10px;
     width: 90%;
+    border-radius: 0.67em;
+    font-size: medium;
 }
 
 body {
     width: 300px;
     max-height: 600px;
+    background-color: rgb(222, 51, 136);
+}
+
+li {
+    color: aliceblue;
+}
+
+summary {
+    color: aliceblue;
+    font-size: medium;
 }
