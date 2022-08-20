@@ -1,6 +1,14 @@
 const inputQ = getElById("inp")
 const wrapper = getElsByClass("wrapper")[0]
 
+inputQ.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        if (wrapper.childElementCount != 0) {
+            wrapper.children[1].focus()
+        }
+    }
+})
+
 function getDataAndDo(func) {
     chrome.storage.sync.get(["detailsData"], (data) => {
         if (data.detailsData == null) {
