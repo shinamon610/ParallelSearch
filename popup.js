@@ -146,19 +146,6 @@ function makeLine(lineData) {
     })
     wrapper.appendChild(details)
 
-    const press = document.createElement("label")
-    press.textContent = "press"
-    wrapper.appendChild(press)
-
-    const inputKey = document.createElement("input")
-    inputKey.type = "text"
-    inputKey.maxLength = "1"
-    inputKey.tabIndex = "-1"
-    wrapper.appendChild(inputKey)
-    const to = document.createElement("label")
-    to.textContent = "to"
-    wrapper.appendChild(to)
-
     const searchButton = document.createElement("button")
     searchButton.id = makeButtonId(ID)
     const span = document.createElement("span")

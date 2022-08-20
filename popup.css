@@ -1,6 +1,6 @@
 .wrapper {
     display: grid;
-    grid-template-columns: 60% 35px 20px 15px 30px;
+    grid-template-columns: 90% 30px;
 }
 
 button {
@@ -10,6 +10,7 @@ button {
 
 input {
     height: 10px;
+    width: 90%;
 }
 
 body {
