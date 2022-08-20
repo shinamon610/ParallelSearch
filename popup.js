@@ -171,6 +171,7 @@ function makeLine(lineData) {
 
     const searchButton = document.createElement("button")
     searchButton.id = makeButtonId(ID)
+    searchButton.tabIndex = "2"
     const span = document.createElement("span")
     span.className = "material-symbols-outlined"
     span.style = "font-size: 15px;"
@@ -208,7 +209,7 @@ function showData(data) {
     // add input form to append group
     const input = document.createElement("input")
     input.placeholder = "new group"
-    input.tabIndex = "-1"
+    input.tabIndex = "3"
     wrapper.appendChild(input)
     addEventListenerKeydown(input, () => {
         if (input.value !== "") {
