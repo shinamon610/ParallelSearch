@@ -162,7 +162,7 @@ function makeLine(lineData) {
     inputNewUrl.placeholder = "new url"
     li.appendChild(inputNewUrl)
     details.appendChild(li)
-    addEventListenerKeydownAndBlur(inputNewUrl, () => {
+    addEventListenerKeydown(inputNewUrl, () => {
         if (inputNewUrl.value !== "") {
             addList(ID, inputNewUrl.value)
         }
