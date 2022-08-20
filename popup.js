@@ -147,9 +147,11 @@ function makeLine(lineData) {
             changeList(ID, idTourl["id"], input.value)
         })
     })
+    const li = document.createElement("li")
     const inputNewUrl = document.createElement("input")
     inputNewUrl.placeholder = "new url"
-    details.appendChild(inputNewUrl)
+    li.appendChild(inputNewUrl)
+    details.appendChild(li)
     addEventListenerKeydown(inputNewUrl, () => {
         addList(ID, inputNewUrl.value)
     })
